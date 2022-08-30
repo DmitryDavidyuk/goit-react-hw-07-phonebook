@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { filterContacts } from 'Redux/reducers';
+// import { filterContacts } from 'Redux/reducers';
 
 const Filter = () => {
   const dispath = useDispatch();
@@ -12,7 +12,7 @@ const Filter = () => {
       <input
         type="text"
         value={value}
-        onChange={e => dispath(filterContacts(e.currentTarget.value))}
+        onChange={e => dispath(e.currentTarget.value)}
       />
     </label>
   );

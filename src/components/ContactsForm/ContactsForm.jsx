@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
+
 import CSS from './Contacts.module.css';
 
 export default function ContactsForm({ onSubmit }) {

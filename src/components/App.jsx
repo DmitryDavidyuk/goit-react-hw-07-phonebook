@@ -1,20 +1,30 @@
-// import { useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ContactsList from './ContactsList';
 import ContactsForm from './ContactsForm';
+
 import Filter from './Filter';
 import CSS from './App.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../Redux/reducers';
+
+import {
+  useFetchContactsQuery,
+  useDeleteContactsMutation,
+  useCreateContactMutation,
+} from '../Redux/store';
+// import { addContact } from '../Redux/reducers';
 
 export default function App() {
-  const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
+  // const dispatch = useDispatch();
 
-  const addContactID = ({ name, number }) => {
+  const { data: contacts } = useFetchContactsQuery();
+  const [deleteContact] = useDeleteContactsMutation();
+  const [createContact] = useCreateContactMutation();
+
+  // useEffect(() => {
+  //   dispatch(contactOperations.fetch());
+  // }, [dispatch]);
+
+  const addContact = ({ name, number }) => {
     if (
       contacts.find(
         contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -26,31 +36,28 @@ export default function App() {
     } else if (name.trim() === '' || number.trim() === '') {
       toast.error("Введіть ім'я та номер телефону контакту!");
     } else {
-      dispatch(
-        addContact({
-          id: nanoid(5),
-          name,
-          number,
-        })
-      );
+      createContact({ name, phone: number });
+
       toast.success('Контакт додано!');
     }
   };
-  const getVisibleContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
+  // const getVisibleContacts = () => {
+  //   const normalizedFilter = filter.toLowerCase();
 
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
+  //   return contacts.filter(contact =>
+  //     contact.name.toLowerCase().includes(normalizedFilter)
+  //   );
+  // };
 
   return (
     <div className={CSS.container}>
       <h1>Телефонна книга</h1>
-      <ContactsForm onSubmit={addContactID} />
+      <ContactsForm onSubmit={addContact} />
       <h2>Контакти</h2>
-      <Filter />
-      <ContactsList contacts={getVisibleContacts()} />
+      {/* <Filter /> */}
+      {contacts && (
+        <ContactsList contacts={contacts} onDelete={deleteContact} />
+      )}
       <ToastContainer position="top-left" autoClose={2000} />
     </div>
   );
