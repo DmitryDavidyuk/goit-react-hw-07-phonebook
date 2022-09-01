@@ -66,7 +66,7 @@ export default function ContactsForm({ onSubmit }) {
         title="Номер телефону повинен складатися з цифр в форматі +380123456789"
         required
       />
-      <button type="submit">Add contact</button>
+      <button type="submit">Додати Контакт</button>
     </form>
   );
 }

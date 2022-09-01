@@ -1,7 +1,32 @@
-.contact {
-  padding-left: 5px;
+.contact ul {
+  margin-top: 20px;
+  display: grid;
+  gap: 15px;
 }
 
+.contact p {
+  font-size: 1.2em;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+.contact li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
 .contactList {
   display: flex;
   align-items: center;

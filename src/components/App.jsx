@@ -1,28 +1,23 @@
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ContactsList from './ContactsList';
+import { getFilterContacts } from 'Redux/filter';
+import { useSelector } from 'react-redux';
 import ContactsForm from './ContactsForm';
-
 import Filter from './Filter';
+import ContactsList from './ContactsList';
 import CSS from './App.module.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   useFetchContactsQuery,
   useDeleteContactsMutation,
   useCreateContactMutation,
-} from '../Redux/store';
-// import { addContact } from '../Redux/reducers';
+} from '../Redux/contactsApi';
 
 export default function App() {
-  // const dispatch = useDispatch();
-
+  const filter = useSelector(getFilterContacts);
   const { data: contacts } = useFetchContactsQuery();
   const [deleteContact] = useDeleteContactsMutation();
   const [createContact] = useCreateContactMutation();
-
-  // useEffect(() => {
-  //   dispatch(contactOperations.fetch());
-  // }, [dispatch]);
 
   const addContact = ({ name, number }) => {
     if (
@@ -41,24 +36,32 @@ export default function App() {
       toast.success('Контакт додано!');
     }
   };
-  // const getVisibleContacts = () => {
-  //   const normalizedFilter = filter.toLowerCase();
 
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalizedFilter)
-  //   );
-  // };
+  const getVisibleContacts = () => {
+    const normalizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+  };
 
   return (
-    <div className={CSS.container}>
-      <h1>Телефонна книга</h1>
-      <ContactsForm onSubmit={addContact} />
-      <h2>Контакти</h2>
-      {/* <Filter /> */}
-      {contacts && (
-        <ContactsList contacts={contacts} onDelete={deleteContact} />
-      )}
-      <ToastContainer position="top-left" autoClose={2000} />
+    <div className={CSS.section}>
+      <div className={CSS.container}>
+        <h1>Телефонна книга</h1>
+        <ContactsForm onSubmit={addContact} />
+        <div className={CSS.contacts}>
+          <h2>Контакти</h2>
+          <Filter />
+          {contacts && (
+            <ContactsList
+              contacts={getVisibleContacts()}
+              onDelete={deleteContact}
+            />
+          )}
+        </div>
+        <ToastContainer position="top-left" autoClose={2000} />
+      </div>
     </div>
   );
 }

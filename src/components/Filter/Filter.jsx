@@ -1,18 +1,21 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-// import { filterContacts } from 'Redux/reducers';
+import { setFilter } from '../../Redux/filter';
+import { getFilterContacts } from '../../Redux/filter';
 
 const Filter = () => {
-  const dispath = useDispatch();
-  const value = useSelector(state => state.contacts.Filter);
-
+  const dispatch = useDispatch();
+  const filter = useSelector(getFilterContacts);
   return (
     <label>
       Пошук контактів за іменами
       <input
-        type="text"
-        value={value}
-        onChange={e => dispath(e.currentTarget.value)}
+        type="filter"
+        name="filter"
+        value={filter}
+        onChange={event =>
+          dispatch(setFilter(event.currentTarget.value.toLowerCase()))
+        }
       />
     </label>
   );
