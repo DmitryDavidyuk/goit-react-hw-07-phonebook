@@ -10,12 +10,10 @@ const Filter = () => {
     <label>
       Пошук контактів за іменами
       <input
-        type="filter"
+        type="text"
         name="filter"
         value={filter}
-        onChange={event =>
-          dispatch(setFilter(event.currentTarget.value.toLowerCase()))
-        }
+        onChange={e => dispatch(setFilter(e.currentTarget.value.toLowerCase()))}
       />
     </label>
   );

@@ -16,7 +16,7 @@ import {
 export default function App() {
   const filter = useSelector(getFilterContacts);
   const { data: contacts } = useFetchContactsQuery();
-  const [deleteContact] = useDeleteContactsMutation();
+  const [deleteContact, { isLoading }] = useDeleteContactsMutation();
   const [createContact] = useCreateContactMutation();
 
   const addContact = ({ name, number }) => {
@@ -57,6 +57,7 @@ export default function App() {
             <ContactsList
               contacts={getVisibleContacts()}
               onDelete={deleteContact}
+              isLoading={isLoading}
             />
           )}
         </div>
